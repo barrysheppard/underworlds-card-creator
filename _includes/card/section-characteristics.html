@@ -33,7 +33,7 @@
             </div>
            
             <div class="form-group">
-                <label for="imageSelectList">Logo List</label>
+                <label for="imageSelectList">Warband Runemark</label>
                 <select class="form-control" id="imageSelectList" onchange="onRunemarkSelectChange()">
                     <option value="">Select an image</option>
                     <!-- Options for images in the folder will be dynamically populated here -->
@@ -72,8 +72,17 @@
                             oninput="onAnyChange()" type="number" value="3">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="defense">Dodge/Shield</label>
+                    <select class="form-control" id="defense" name="defense" onchange="onAnyChange()">
+                        <optgroup label="defense Type">
+                        <option value="Dodge" selected>Dodge</option>
+                        <option value="Shield">Shield</option>
+                    </optgroup>
+                    </select>
+                </div>
             </div>
-<div><b>Weapon 1</b></div>
+        <div><b>Weapon 1</b></div>
             <div class="row">
                 <div class="col-sm-2">
                     <div class="form-group">
@@ -105,12 +114,41 @@
                     </optgroup>
                     </select>
                 </div>
+            </div>
+            <div class="row">
                 <div class="form-group">
                     <label for="wp1hammer">Hammer/Swords</label>
                     <select class="form-control" id="wp1hammer" name="wp1hammer" onchange="onAnyChange()">
                         <optgroup label="Weapon Type">
                         <option value="Hammer" selected>Hammer</option>
                         <option value="Swords">Swords</option>
+                    </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wp1special">Special</label>
+                    <select class="form-control" id="wp1special" name="wp1special" onchange="onAnyChange()">
+                        <optgroup label="Weapon Special">
+                        <option value="None" selected>None</option>
+                        <option value="Brutal">Brutal</option>
+                        <option value="Cleave">Cleave</option>
+                        <option value="Ensnare">Ensnare</option>
+                        <option value="Grapple">Grapple</option>
+                        <option value="Stagger">Stagger</option>
+                    </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wp1special2">Special</label>
+                    <select class="form-control" id="wp1special2" name="wp1special2" onchange="onAnyChange()">
+                        <optgroup label="Weapon Special">
+                        <option value="None" selected>None</option>
+                        <option value="Crit">Crit!</option>
+                        <option value="Brutal">Brutal</option>
+                        <option value="Cleave">Cleave</option>
+                        <option value="Ensnare">Ensnare</option>
+                        <option value="Grapple">Grapple</option>
+                        <option value="Stagger">Stagger</option>
                     </optgroup>
                     </select>
                 </div>
@@ -139,7 +177,6 @@
                             oninput="onAnyChange()" type="number" value="0">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="wp2type">Weapon Type</label>
                     <select class="form-control" id="wp2type" name="wp2type" onchange="onAnyChange()">
@@ -149,6 +186,8 @@
                     </optgroup>
                     </select>
                 </div>
+            </div>
+            <div class="row">
                 <div class="form-group">
                     <label for="wp2hammer">Hammer/Swords</label>
                     <select class="form-control" id="wp2hammer" name="wp2hammer" onchange="onAnyChange()">
@@ -158,7 +197,54 @@
                     </optgroup>
                     </select>
                 </div>
-            </div>            
+                <div class="form-group">
+                    <label for="wp2special">Special</label>
+                    <select class="form-control" id="wp2special" name="wp2special" onchange="onAnyChange()">
+                        <optgroup label="Weapon Special">
+                        <option value="None" selected>None</option>
+                        <option value="Brutal">Brutal</option>
+                        <option value="Cleave">Cleave</option>
+                        <option value="Ensnare">Ensnare</option>
+                        <option value="Grapple">Grapple</option>
+                        <option value="Stagger">Stagger</option>
+                    </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wp2special2">Special</label>
+                    <select class="form-control" id="wp2special2" name="wp2special2" onchange="onAnyChange()">
+                        <optgroup label="Weapon Special">
+                        <option value="None" selected>None</option>
+                        <option value="Crit">Crit!</option>
+                        <option value="Brutal">Brutal</option>
+                        <option value="Cleave">Cleave</option>
+                        <option value="Ensnare">Ensnare</option>
+                        <option value="Grapple">Grapple</option>
+                        <option value="Stagger">Stagger</option>
+                    </optgroup>
+                    </select>
+                </div>
+            </div>       
+            <!-- New "Runemarks" Section -->
+<div class="form-group">
+    <label><b>Runemarks</b></label>
+</div>
+<div class="form-group">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="leaderCheck" name="leaderCheck" onchange="onAnyChange()">
+        <label class="form-check-label" for="leaderCheck">Leader</label>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="minionCheck" name="minionCheck" onchange="onAnyChange()">
+        <label class="form-check-label" for="minionCheck">Minion</label>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="flyCheck" name="flyCheck" onchange="onAnyChange()">
+        <label class="form-check-label" for="flyCheck">Fly</label>
+    </div>
+</div>
+            
+
         </div>
 
 

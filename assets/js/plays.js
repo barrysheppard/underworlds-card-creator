@@ -209,11 +209,8 @@ function readControls() {
     data.customBackgroundUrl = getCustomBackgroundUrl();
     data.customBackgroundProperties = getCustomBackgroundProperties();
     data.playName = document.getElementById("playName").value;
-    data.teamName = document.getElementById("teamName").value;
     data.bgselected = document.getElementById('background-list').value;
     data.removeBorder = document.getElementById("removeBorder").checked;
-    data.colorPicker = document.getElementById("colorPicker").value;
-    data.colorPickerText = document.getElementById("colorPickerText").value;
     
     return data;
 }
@@ -322,7 +319,6 @@ async function writeControls(data) {
     setCustomBackground(data.customBackgroundUrl);
     setCustomBackgroundProperties(data.customBackgroundProperties);
     $("#playName")[0].value = data.playName;
-    $("#teamName")[0].value = data.teamName;
 
     // check and uncheck if needed
 
@@ -332,8 +328,6 @@ async function writeControls(data) {
 
     document.getElementById("removeBorder").checked = data.removeBorder;    
     document.getElementById("textValue").value = data.textValue;
-    document.getElementById("colorPicker").value = data.colorPicker;
-    document.getElementById("colorPickerText").value = data.colorPickerText;
     
     // render the updated info
     render(data);
