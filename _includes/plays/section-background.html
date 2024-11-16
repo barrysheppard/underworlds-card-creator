@@ -1,0 +1,78 @@
+<div class="card">
+
+    <div class="card-header" id="missionsHeadingOne">
+        <h2 class="h5 mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#missionsCollapseOne" aria-expanded="false"
+                aria-controls="missionsCollapseOne">
+                Background
+            </button>
+        </h2>
+    </div>
+
+    <div class="collapse" id="missionsCollapseOne">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-6">
+                  <select class="form-select" id="background-list" name="background-list" onchange="onAnyChange()">
+                    <optgroup label="Simple">
+                        <option value="bg1">Plain</option>
+                        <option value="bg2">Stone</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+            
+        </div>
+
+            {% comment %}
+            <div class="form-group mt-4">
+                <label for="backgroundSelect">Load custom background</label>
+                <input disabled aria-describedby="fileHelp" class="form-control-file" id="backgroundSelect"
+                    oninput="onAnyChange()" type="file">
+                <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
+            </div>
+            {% endcomment %}
+
+        </div>
+        <div class="card">
+
+            <div class="card-header" id="customBackgroundHeading">
+                <h2 class="h5 mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#customBackgroundCollapse" aria-expanded="false"
+                        aria-controls="customBackgroundCollapse">
+                        Custom Background</button>
+                </h2>
+            </div>
+        
+            <div class="collapse" id="customBackgroundCollapse">
+                <div class="card-body">
+        
+                    <div class="form-group">
+                        <label for="customBackgroundSelect">Load image</label>
+                        <input class="form-control-file" id="customBackgroundSelect" oninput="onCustomBackgroundUpload()" type="file">
+                    </div>
+        
+                    <input type="hidden" id="customBackgroundUrl" name="customBackgroundUrl" value="">
+        
+                    <div class="form-group">
+                        <label for="customBackgroundOffsetX">X offset (&#8596;)</label>
+                        <input class="form-control" id="customBackgroundOffsetX" oninput="onAnyChange()" type="number" value="0" />
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="customBackgroundOffsetY">Y offset (&#8597;)</label>
+                        <input class="form-control" id="customBackgroundOffsetY" oninput="onAnyChange()" type="number" value="0" />
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="customBackgroundScalePercent">Scale (%)</label>
+                        <input class="form-control" id="customBackgroundScalePercent" min="0" max="300" oninput="onAnyChange()"
+                            type="number" value="100" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

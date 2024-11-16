@@ -1,0 +1,49 @@
+<div class="row mt-3">
+
+    <div class="col-lg-4">
+        <img id="art" style="display: none;" src="assets/img/card/art.png">
+        <img id="bg1" style="display: none;" src="assets/img/card/blank.png">
+        <img id="frame" style="display: none;" src="assets/img/card/bg_fighter.png">
+        <img id="star_frame" style="display: none;" src="assets/img/card/bg_fighter_inspired.png">
+        <img id="border" style="display: none;" src="assets/img/card/bloodbowl_border.png">
+        
+        <img id="underworlds-1-weapon" style="display: none;" src="assets/img/card/underworlds-1-weapon.png">
+        <img id="underworlds-weapon-1-melee" style="display: none;" src="assets/img/card/underworlds-weapon-1-melee.png">
+        <img id="underworlds-weapon-1-ranged" style="display: none;" src="assets/img/card/underworlds-weapon-1-ranged.png">
+        <img id="underworlds-2-weapon" style="display: none;" src="assets/img/card/underworlds-2-weapon.png">
+        <img id="underworlds-weapon-2-melee" style="display: none;" src="assets/img/card/underworlds-weapon-2-melee.png">
+        <img id="underworlds-weapon-2-ranged" style="display: none;" src="assets/img/card/underworlds-weapon-2-ranged.png">
+
+        <img id="underworlds-dodge" style="display: none;" src="assets/img/card/underworlds-dodge.png">
+        <img id="underworlds-shield" style="display: none;" src="assets/img/card/underworlds-shield.png">
+
+        <img id="underworlds-weapon-1-swords" style="display: none;" src="assets/img/card/underworlds-weapon-1-swords.png">
+        <img id="underworlds-weapon-1-hammer" style="display: none;" src="assets/img/card/underworlds-weapon-1-hammer.png">
+        <img id="underworlds-weapon-2-swords" style="display: none;" src="assets/img/card/underworlds-weapon-2-swords.png">
+        <img id="underworlds-weapon-2-hammer" style="display: none;" src="assets/img/card/underworlds-weapon-2-hammer.png">
+
+        <img id="underworlds-title-frame" style="display: none;" src="assets/img/card/underworlds-title-frame.png">
+        <img id="underworlds-subtitle-frame" style="display: none;" src="assets/img/card/underworlds-subtitle-frame.png">
+
+
+        <canvas class="canvas rounded" id="canvas" width="822" height="1122 ">
+            Sorry, your browser doesn't support the &lt;canvas&gt; element.
+        </canvas>
+    </div>
+
+    <div class="col-lg-5 scroll-area-fade">
+        <div class="scroll-area">
+            <div class="accordion">
+
+                {% include card/section-characteristics.html %}
+                {% include card/section-image.html %}
+
+
+            </div>
+
+            {% include card/section-actions.html %}
+
+        </div>
+    </div>
+
+</div>
