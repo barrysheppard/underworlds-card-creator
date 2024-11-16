@@ -341,9 +341,12 @@ function readControls() {
     data.wp1rng = document.getElementById("wp1rng").value;
     data.wp1dice = document.getElementById("wp1dice").value;
     data.wp1dmg = document.getElementById("wp1dmg").value;
+    data.wp1type = document.getElementById("wp1type").value;
+    
     data.wp2rng = document.getElementById("wp2rng").value;
     data.wp2dice = document.getElementById("wp2dice").value;
     data.wp2dmg = document.getElementById("wp2dmg").value;
+    data.wp2type = document.getElementById("wp2type").value;
   
     return data;
 }
@@ -356,10 +359,11 @@ function drawCardFrame(fighterData){
 
     // draw weapon 1
     getContext().drawImage(document.getElementById('underworlds-1-weapon'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-weapon-1-melee'), 0, 0, getCanvas().width, getCanvas().height);
-    //getContext().drawImage(document.getElementById('underworlds-weapon-1-ranged'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-weapon-1-swords'), 0, 0, getCanvas().width, getCanvas().height);
-    //getContext().drawImage(document.getElementById('underworlds-weapon-1-hammer'), 0, 0, getCanvas().width, getCanvas().height);
+    if(fighterData.wp1type == "Ranged"){
+        getContext().drawImage(document.getElementById('underworlds-weapon-1-ranged'), 0, 0, getCanvas().width, getCanvas().height);
+    } else {
+        getContext().drawImage(document.getElementById('underworlds-weapon-1-melee'), 0, 0, getCanvas().width, getCanvas().height);
+    }
 
     if(!(fighterData.wp2dice == 0 && fighterData.wp2rng == 0 && fighterData.wp2dmg == 0)){
         // draw weapon 2
@@ -368,6 +372,12 @@ function drawCardFrame(fighterData){
         getContext().drawImage(document.getElementById('underworlds-weapon-2-ranged'), 0, 0, getCanvas().width, getCanvas().height);
         //getContext().drawImage(document.getElementById('underworlds-weapon-2-swords'), 0, 0, getCanvas().width, getCanvas().height);
         getContext().drawImage(document.getElementById('underworlds-weapon-2-hammer'), 0, 0, getCanvas().width, getCanvas().height);
+        if(fighterData.wp2type == "Ranged"){
+            getContext().drawImage(document.getElementById('underworlds-weapon-2-ranged'), 0, 0, getCanvas().width, getCanvas().height);
+        } else {
+            getContext().drawImage(document.getElementById('underworlds-weapon-2-melee'), 0, 0, getCanvas().width, getCanvas().height);
+        }
+        
     }
 
     //getContext().drawImage(document.getElementById('underworlds-dodge'), 0, 0, getCanvas().width, getCanvas().height);
@@ -389,7 +399,7 @@ function drawCardFrame(fighterData){
     // MA
      drawNumber(fighterData.ma, 123, 236, 60);
     // ST
-    drawNumber(fighterData.st, 134, 325, 50);
+    drawNumber(fighterData.st, 136, 325, 50);
     // AG
     drawNumber(fighterData.ag, 123, 425, 60);
     // PA
@@ -517,9 +527,11 @@ async function writeControls(fighterData) {
     $("#wp1rng")[0].value = fighterData.wp1rng;
     $("#wp1dice")[0].value = fighterData.wp1dice;
     $("#wp1dmg")[0].value = fighterData.wp1dmg;
+    $("#wp1type")[0].value = fighterData.wp1type;
     $("#wp2rng")[0].value = fighterData.wp2rng;
     $("#wp2dice")[0].value = fighterData.wp2dice;
     $("#wp2dmg")[0].value = fighterData.wp2dmg;
+    $("#wp2type")[0].value = fighterData.wp2type;
 
     // render the updated info
     render(fighterData);
@@ -541,9 +553,12 @@ function defaultFighterData() {
     fighterData.wp1dice = 0;
     fighterData.wp1dmg = 0;
     fighterData.wp1rng = 0;
+    fighterData.wp1type = "Melee";
     fighterData.wp2dice = 0;
     fighterData.wp2dmg = 0;
     fighterData.wp2rng = 0;
+    fighterData.wp2type = "Ranged";
+    
     fighterData.imageUrl = null;
     fighterData.imageProperties = getDefaultModelImageProperties();
 
