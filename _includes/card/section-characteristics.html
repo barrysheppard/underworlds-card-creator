@@ -26,21 +26,22 @@
                 <label for="playerType">Card Type</label>
                 <select class="form-control" id="playerType" name="playerType" onchange="onAnyChange()">
                     <optgroup label="Card Type">
-                    <option value="roster" selected>Normal</option>
-                    <option value="star">Inspired</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="inspired">Inspired</option>
                 </optgroup>
                 </select>
             </div>
            
             <div class="form-group">
                 <label for="imageSelectList">Logo List</label>
-                <select class="form-control" id="imageSelectList" onchange="onImageSelectChange()">
+                <select class="form-control" id="imageSelectList" onchange="onRunemarkSelectChange()">
                     <option value="">Select an image</option>
                     <!-- Options for images in the folder will be dynamically populated here -->
                 </select>
             </div>
             
-            <input type="hidden" id="missionImageUrl" name="missionImageUrl" value="">
+            <input type="hidden" id="runemarkImageUrl" name="runemarkImageUrl" value="assets/img/logos/bladeborn-blackpowders.svg">
+
 
             <div class="row">
                 <div class="col-sm-2">
@@ -76,30 +77,23 @@
             <div class="row">
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label for="st">Save</label>
-                        <input class="form-control" id="st" min="0" max="8" name="st"
+                        <label for="wp1rng">Range</label>
+                        <input class="form-control" id="wp1rng" min="0" max="8" name="wp1rng"
                             oninput="onAnyChange()" type="number" value="3">
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label for="ag">Health</label>
-                        <input class="form-control" id="ag" min="0" max="6" name="ag"
+                        <label for="wp1dice">Dice</label>
+                        <input class="form-control" id="wp1dice" min="0" max="5" name="wp1dice"
                             oninput="onAnyChange()" type="number" value="3">
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label for="pa">Bount</label>
-                        <input class="form-control" id="pa" min="0" max="6" name="pa"
+                        <label for="wp1dmg">Damage</label>
+                        <input class="form-control" id="wp1dmg" min="0" max="5" name="wp1dmg"
                             oninput="onAnyChange()" type="number" value="3">
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label for="av">AV</label>
-                        <input class="form-control" id="av" min="0" max="11" name="av"
-                            oninput="onAnyChange()" type="number" value="9">
                     </div>
                 </div>
             </div>
@@ -107,38 +101,27 @@
             <div class="row">
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label for="st">Save</label>
-                        <input class="form-control" id="st" min="0" max="8" name="st"
-                            oninput="onAnyChange()" type="number" value="3">
+                        <label for="wp2rng">Range</label>
+                        <input class="form-control" id="wp2rng" min="0" max="5" name="wp2rng"
+                            oninput="onAnyChange()" type="number" value="0">
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label for="ag">Health</label>
-                        <input class="form-control" id="ag" min="0" max="6" name="ag"
-                            oninput="onAnyChange()" type="number" value="3">
+                        <label for="wp2dice">Dice</label>
+                        <input class="form-control" id="wp2dice" min="0" max="5" name="wp2dice"
+                            oninput="onAnyChange()" type="number" value="0">
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label for="pa">Bount</label>
-                        <input class="form-control" id="pa" min="0" max="6" name="pa"
-                            oninput="onAnyChange()" type="number" value="3">
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label for="av">AV</label>
-                        <input class="form-control" id="av" min="0" max="11" name="av"
-                            oninput="onAnyChange()" type="number" value="9">
+                        <label for="wp2dmg">Damage</label>
+                        <input class="form-control" id="wp2dmg" min="0" max="5" name="wp2dmg"
+                            oninput="onAnyChange()" type="number" value="0">
                     </div>
                 </div>
             </div>            
-            <div class="form-group">
-                <label for="cardText">Skills & Traits</label>
-                <textarea class="form-control" id="cardText" name="cardText" rows="3"
-                    oninput="onAnyChange()">Body Text</textarea>
-            </div>
+
 
         </div>
     </div>

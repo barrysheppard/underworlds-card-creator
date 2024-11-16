@@ -73,7 +73,7 @@ drawCardElementFromInputId = function (inputId, pixelPosition) {
 
 drawplayName = function (value) {
     startX = 1122 / 2;
-    startY = 730;
+    startY = 110;
     var maxWidth = 390; // Set the desired width for the text
 
     getContext().textAlign = "center";
@@ -93,7 +93,7 @@ drawplayName = function (value) {
 
     // Set the font size and draw the text
     getContext().font = fontSize + 'px brothers-regular';
-    getContext().fillStyle = 'white';
+    getContext().fillStyle = 'black';
     writeScaled(value, { x: startX, y: startY });
 }
 
@@ -211,10 +211,7 @@ function readControls() {
     data.playName = document.getElementById("playName").value;
     data.teamName = document.getElementById("teamName").value;
     data.bgselected = document.getElementById('background-list').value;
-
-
     data.removeBorder = document.getElementById("removeBorder").checked;
-    data.textValue = document.getElementById("textValue").value;
     data.colorPicker = document.getElementById("colorPicker").value;
     data.colorPickerText = document.getElementById("colorPickerText").value;
     
@@ -355,14 +352,9 @@ function defaultmissionData() {
     data.teamName = "General";
     data.bgselected = "bg1";
 
-
     data.removeBorder = false;
-
-
     data.colorPicker = "#FFFFFF";
     data.colorPickerText = "#000000"
-
-    data.textValue = "";
 
     return data;
 }
@@ -754,39 +746,6 @@ function splitWordWrap(context, text, fitWidth) {
 }
 
 
-function drawText() {
-    const cardText = document.getElementById("textValue").value;
-    const selectedFontSize = document.getElementById("fontSize").value;
-    const lineHeight = parseInt(selectedFontSize);
-    const xPosition = 50;
-    const yStart = 80;
-    const borderWidth = 2;
-
-    // Draw black border
-    getContext().font = `bold ${selectedFontSize}px IndieFlower`;
-    getContext().fillStyle = 'black';
-    getContext().textAlign = "left";
-    getContext().textBaseline = "top";
-
-    const textLines = cardText.split('\n');
-
-    for (let line = 0; line < textLines.length; line++) {
-        const text = textLines[line];
-        getContext().fillText(text, xPosition - borderWidth, yStart + (line * lineHeight) - borderWidth);
-        getContext().fillText(text, xPosition - borderWidth, yStart + (line * lineHeight) + borderWidth);
-        getContext().fillText(text, xPosition + borderWidth, yStart + (line * lineHeight) - borderWidth);
-        getContext().fillText(text, xPosition + borderWidth, yStart + (line * lineHeight) + borderWidth);
-    }
-
-    // Draw white text on top
-    getContext().fillStyle = 'white';
-
-    for (let line = 0; line < textLines.length; line++) {
-        const text = textLines[line];
-        getContext().fillText(text, xPosition, yStart + (line * lineHeight));
-    }
-}
-
 
 
 
@@ -850,7 +809,7 @@ function populateImageSelectDropdown() {
     imageSelect.appendChild(noneOption);
 
     // Fetch image file names from the GitHub repository directory
-    fetch("https://api.github.com/repos/barrysheppard/bloodbowl-card-creator/git/trees/main?recursive=1")
+    fetch("https://api.github.com/repos/barrysheppard/underworlds-card-creator/git/trees/main?recursive=1")
         .then(response => response.json())
         .then(data => {
             // Filter out files from the response

@@ -156,39 +156,21 @@ drawCardElementFromInputId = function (inputId, pixelPosition) {
     drawCardElementFromInput(document.getElementById(inputId), pixelPosition);
 }
 
-drawCardName = function (value) {
-    getContext().fillStyle = 'black';
-    getContext().textAlign = "center";
-    getContext().textBaseline = "middle";
+function drawCardName(value) {
+    const context = getContext();
+    const canvas = getCanvas();
+    context.fillStyle = 'black';
+    context.textAlign = "center";
+    context.textBaseline = "middle";
 
-    // Set the initial font size
-    var fontSize = 70;
+    // Set the font based on text length
+    let fontSize = value.length >= 18 ? Math.max(70, canvas.width / value.length) : 70;
+    context.font = `${fontSize}px brothers-regular`;
 
-    // Check if the value is 18 characters or more
-    if (value.length >= 18) {
-        // Calculate the maximum width based on the desired length
-        var maxWidth = 650;
-
-        // Calculate the width of the text with the current font size
-        getContext().font = 'italic ' + fontSize + 'px brothers-regular';
-        var textWidth = getContext().measureText(value).width;
-
-        // Reduce font size if the text width exceeds the maximum width
-        while (textWidth > maxWidth && fontSize > 1) {
-            fontSize--;
-            getContext().font = 'italic ' + fontSize + 'px brothers-regular';
-            textWidth = getContext().measureText(value).width;
-        }
-    }
-
-    // Set the font size and draw the text with black shadow
-    getContext().font = fontSize + 'px brothers-regular';
-    writeScaled(value, { x: getCanvas().width/2 + 4, y: 125 + 4 });
-    
-    // Set the font size and draw the text in white
-    getContext().fillStyle = 'white';
-    writeScaled(value, { x: getCanvas().width/2, y: 125 });
-
+    // Draw shadow and main text
+    writeScaled(value, { x: canvas.width / 2 + 4, y: 125 + 4 });
+    context.fillStyle = 'white';
+    writeScaled(value, { x: canvas.width / 2, y: 125 });
 }
 
 
@@ -278,22 +260,6 @@ function drawImageSrc(scaledPosition, scaledSize, imageSrc) {
 }
 
 
-function drawModel(imageUrl, imageProps) {
-    if (imageUrl != null) {
-        var image = new Image();
-        image.onload = function () {
-            var position = scalePixelPosition({ x: 590 + imageProps.offsetX, y: imageProps.offsetY });
-            var scale = imageProps.scalePercent / 100.0;
-            var width = image.width * scale;
-            var height = image.height * scale;
-            getContext().drawImage(image, position.x, position.y, width, height);
-
-            URL.revokeObjectURL(image.src);
-        };
-        image.src = imageUrl;
-    }
-}
-
 function getName() {
     //var textInput = $("#saveNameInput")[0];
     return "BloodBowl_Card";
@@ -315,17 +281,26 @@ function getModelImage() {
 }
 
 function setModelImage(image) {
+    
     console.log("setModelImage:" + image);
     $("#fighterImageUrl")[0].value = image;
 
-    //  if (image != null) {
-    // TODO: Not sure how to do this. It might not even be possible! Leave it for now...
-    //    imageSelect.value = image;
-    // }
-    // else {
-    //    imageSelect.value = null;
-    // }
 }
+
+function setRunemarkImage(image) {
+    console.log("setRunemarkImage:", image);
+
+    // Check if the element exists before trying to set its value
+    const runemarkImageElement = $("#RunemarkImageUrl")[0];
+    
+    if (runemarkImageElement) {
+        // Set the value if the element exists
+        runemarkImageElement.value = image;
+    } else {
+        console.error("Element #RunemarkImageUrl not found.");
+    }
+}
+
 
 function getDefaultModelImageProperties() {
     return {
@@ -357,45 +332,52 @@ function readControls() {
     data.imageProperties = getModelImageProperties();
     data.cardName = document.getElementById("cardName").value;
     data.teamName = document.getElementById("teamName").value;
-    data.cardText = document.getElementById("cardText").value;
     data.ma = document.getElementById("ma").value;
     data.st = document.getElementById("st").value;
     data.ag = document.getElementById("ag").value;
     data.pa = document.getElementById("pa").value;
     data.playerType = document.getElementById("playerType").value;
 
-
+    data.wp1rng = document.getElementById("wp1rng").value;
+    data.wp1dice = document.getElementById("wp1dice").value;
+    data.wp1dmg = document.getElementById("wp1dmg").value;
+    data.wp2rng = document.getElementById("wp2rng").value;
+    data.wp2dice = document.getElementById("wp2dice").value;
+    data.wp2dmg = document.getElementById("wp2dmg").value;
+  
     return data;
 }
 
 function drawCardFrame(fighterData){
     
-
     if(!document.getElementById("removeBorder").checked){
         getContext().drawImage(document.getElementById('border'), 0, 0, getCanvas().width, getCanvas().height);
     }
 
-    // draw weapons
-    //getContext().drawImage(document.getElementById('underworlds-1-weapon'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-2-weapon'), 0, 0, getCanvas().width, getCanvas().height);
+    // draw weapon 1
+    getContext().drawImage(document.getElementById('underworlds-1-weapon'), 0, 0, getCanvas().width, getCanvas().height);
+    getContext().drawImage(document.getElementById('underworlds-weapon-1-melee'), 0, 0, getCanvas().width, getCanvas().height);
+    //getContext().drawImage(document.getElementById('underworlds-weapon-1-ranged'), 0, 0, getCanvas().width, getCanvas().height);
+    getContext().drawImage(document.getElementById('underworlds-weapon-1-swords'), 0, 0, getCanvas().width, getCanvas().height);
+    //getContext().drawImage(document.getElementById('underworlds-weapon-1-hammer'), 0, 0, getCanvas().width, getCanvas().height);
 
-    //getContext().drawImage(document.getElementById('underworlds-1-weapon'), 0, 0, getCanvas().width, getCanvas().height);
-    //getContext().drawImage(document.getElementById('underworlds-weapon-1-melee'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-weapon-1-ranged'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-weapon-2-melee'), 0, 0, getCanvas().width, getCanvas().height);
-    //getContext().drawImage(document.getElementById('underworlds-weapon-2-ranged'), 0, 0, getCanvas().width, getCanvas().height);
+    if(!(fighterData.wp2dice == 0 && fighterData.wp2rng == 0 && fighterData.wp2dmg == 0)){
+        // draw weapon 2
+        getContext().drawImage(document.getElementById('underworlds-2-weapon'), 0, 0, getCanvas().width, getCanvas().height);
+        //getContext().drawImage(document.getElementById('underworlds-weapon-2-melee'), 0, 0, getCanvas().width, getCanvas().height);
+        getContext().drawImage(document.getElementById('underworlds-weapon-2-ranged'), 0, 0, getCanvas().width, getCanvas().height);
+        //getContext().drawImage(document.getElementById('underworlds-weapon-2-swords'), 0, 0, getCanvas().width, getCanvas().height);
+        getContext().drawImage(document.getElementById('underworlds-weapon-2-hammer'), 0, 0, getCanvas().width, getCanvas().height);
+    }
 
     //getContext().drawImage(document.getElementById('underworlds-dodge'), 0, 0, getCanvas().width, getCanvas().height);
     getContext().drawImage(document.getElementById('underworlds-shield'), 0, 0, getCanvas().width, getCanvas().height);
 
-    //getContext().drawImage(document.getElementById('underworlds-weapon-1-swords'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-weapon-1-hammer'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-weapon-2-swords'), 0, 0, getCanvas().width, getCanvas().height);
-    //getContext().drawImage(document.getElementById('underworlds-weapon-2-hammer'), 0, 0, getCanvas().width, getCanvas().height);
-
+    
     getContext().drawImage(document.getElementById('underworlds-title-frame'), 0, 0, getCanvas().width, getCanvas().height);
-    getContext().drawImage(document.getElementById('underworlds-subtitle-frame'), 0, 0, getCanvas().width, getCanvas().height);
-
+    if (fighterData.teamName !== "") {
+        getContext().drawImage(document.getElementById('underworlds-subtitle-frame'), 0, 0, getCanvas().width, getCanvas().height);
+    }
 
     drawCardName(fighterData.cardName);
     drawTeamName(fighterData.teamName);
@@ -413,39 +395,72 @@ function drawCardFrame(fighterData){
     // PA
     drawNumber(fighterData.pa, 123, 520, 60);
     
+    // WP1 RNG
+    drawNumber(fighterData.wp1rng, 320, 868, 70);
+    // WP1 Dice
+    drawNumber(fighterData.wp1dice, 445, 868, 70);
+    // WP1 DMG
+    drawNumber(fighterData.wp1dmg, 560, 868, 70);
+ 
+    if(!(fighterData.wp2dice == 0 && fighterData.wp2rng == 0 && fighterData.wp2dmg == 0)){
+        // WP2 RNG
+        drawNumber(fighterData.wp2rng, 320, 972, 70);
+        // WP2 Dice
+        drawNumber(fighterData.wp2dice, 445, 972, 70);
+        // WP2 DMG
+        drawNumber(fighterData.wp2dmg, 560, 972, 70);
+    }     
 
 }
 
-render = function (fighterData) {
+const render = function (fighterData) {
     console.log("Render:");
     console.log(fighterData);
-    // First the textured background
-    getContext().drawImage(document.getElementById('bg1'), 0, 0, getCanvas().width, getCanvas().height);
-    playerType = document.getElementById("playerType").value;
-    if(playerType == "star"){
-        getContext().drawImage(document.getElementById('star_frame'), 0, 0, getCanvas().width, getCanvas().height);
-    } else {
-        getContext().drawImage(document.getElementById('frame'), 0, 0, getCanvas().width, getCanvas().height);
-    }
-
-    if (fighterData.imageUrl) {
-        var image = new Image();
-        image.onload = function () {
-        var position = scalePixelPosition({ x: 100 + fighterData.imageProperties.offsetX, y: fighterData.imageProperties.offsetY });
-        var scale = fighterData.imageProperties.scalePercent / 100.0;
-        var width = image.width * scale;
-        var height = image.height * scale;
-        getContext().drawImage(image, position.x, position.y, width, height);
-        drawCardFrame(fighterData);
-        };
-    image.src = fighterData.imageUrl;
-    }
-    // next the frame elements
-
-    drawCardFrame(fighterData);
-
     
-}
+    const context = getContext();
+    const canvas = getCanvas();
+
+    // Draw background and frame
+    //context.drawImage(document.getElementById('bg1'), 0, 0, canvas.width, canvas.height);
+    if (fighterData.playerType == "inspired") {
+        context.drawImage(document.getElementById('inspired'), 0, 0, canvas.width, canvas.height);
+    } else {
+        context.drawImage(document.getElementById('normal'), 0, 0, canvas.width, canvas.height);
+    }
+
+    // Draw fighter image if available
+    if (fighterData.imageUrl) {
+        const image = new Image();
+        image.onload = function () {
+            const position = scalePixelPosition({ 
+                x: 100 + fighterData.imageProperties.offsetX, 
+                y: fighterData.imageProperties.offsetY 
+            });
+            const scale = fighterData.imageProperties.scalePercent / 100.0;
+            const width = image.width * scale;
+            const height = image.height * scale;
+            context.drawImage(image, position.x, position.y, width, height);
+            drawCardFrame(fighterData);
+            
+            // Check if #runemarkImageUrl is populated before calling drawRunemarkImage
+            const runemarkImageUrl = document.getElementById('runemarkImageUrl').value;
+            if (runemarkImageUrl) {
+                drawRunemarkImage(); // Draw the SVG from #RunemarkImageUrl
+            }
+        };
+        image.src = fighterData.imageUrl;
+    } else {
+        // Draw frame and check for runemark image if fighter image is not provided
+        drawCardFrame(fighterData);
+        
+        // Check if #runemarkImageUrl is populated before calling drawRunemarkImage
+        const runemarkImageUrl = document.getElementById('runemarkImageUrl').value;
+        if (runemarkImageUrl) {
+            drawRunemarkImage();
+        }
+    }
+};
+
 
 function drawNumber(num,x, y, fontSize){
 
@@ -498,7 +513,13 @@ async function writeControls(fighterData) {
     $("#st")[0].value = fighterData.st;
     $("#ag")[0].value = fighterData.ag;
     $("#pa")[0].value = fighterData.pa;
-    
+
+    $("#wp1rng")[0].value = fighterData.wp1rng;
+    $("#wp1dice")[0].value = fighterData.wp1dice;
+    $("#wp1dmg")[0].value = fighterData.wp1dmg;
+    $("#wp2rng")[0].value = fighterData.wp2rng;
+    $("#wp2dice")[0].value = fighterData.wp2dice;
+    $("#wp2dmg")[0].value = fighterData.wp2dmg;
 
     // render the updated info
     render(fighterData);
@@ -517,6 +538,12 @@ function defaultFighterData() {
     fighterData.st = 4;
     fighterData.ag = 3;
     fighterData.pa = 3;
+    fighterData.wp1dice = 0;
+    fighterData.wp1dmg = 0;
+    fighterData.wp1rng = 0;
+    fighterData.wp2dice = 0;
+    fighterData.wp2dmg = 0;
+    fighterData.wp2rng = 0;
     fighterData.imageUrl = null;
     fighterData.imageProperties = getDefaultModelImageProperties();
 
@@ -808,7 +835,7 @@ function populateImageSelectDropdown() {
     imageSelect.appendChild(noneOption);
 
     // Fetch image file names from the GitHub repository directory
-    fetch("https://api.github.com/repos/barrysheppard/bloodbowl-card-creator/git/trees/main?recursive=1")
+    fetch("https://api.github.com/repos/barrysheppard/underworlds-card-creator/git/trees/main?recursive=1")
         .then(response => response.json())
         .then(data => {
             // Filter out files from the response
@@ -825,4 +852,73 @@ function populateImageSelectDropdown() {
         .catch(error => {
             console.error("Error fetching image files from GitHub: ", error);
         });
+}
+
+
+function onRunemarkSelectChange() {
+    // Get the selected value from the dropdown
+    const selectedImage = document.getElementById("imageSelectList").value;
+
+    // Update the hidden input field with the selected image URL
+    const runemarkImageUrlInput = document.getElementById("runemarkImageUrl");
+    runemarkImageUrlInput.value = selectedImage; // Set the value to the selected image URL
+
+    // Optionally, log to check if the correct value is set
+    console.log("Selected Image URL:", selectedImage);
+    
+    // redraw
+    var missionData = readControls();
+    render(missionData);
+}
+
+
+function onImageSelectChange() {
+    const imageSelect = document.getElementById("imageSelectList");
+    const selectedImagePath = imageSelect.value;
+
+    setModelImage(selectedImagePath);
+    var missionData = readControls();
+    render(missionData);
+    saveLatestmissionData();
+}
+
+function drawRunemarkImage() {
+    const runemarkImageElement = document.getElementById('runemarkImageUrl');
+    
+    // Ensure the element exists before trying to access its value
+    if (!runemarkImageElement) {
+        console.error("Element #runemarkImageUrl not found");
+        return;  // Exit early if the element doesn't exist
+    }
+
+    const runemarkImageUrl = runemarkImageElement.value;
+
+    // If the value is empty, we can exit the function early
+    if (!runemarkImageUrl) {
+        console.log("No runemark image URL provided.");
+        return;
+    }
+
+    // Proceed with loading the runemark image as before
+    const fullUrl = window.location.origin + '/' + runemarkImageUrl;
+
+    const image = new Image();
+    image.onload = function() {
+        const context = getContext();
+        
+        const x = 650;   // Example centering, adjust as needed
+        const y = 190;  // Example centering, adjust as needed
+        const width = 90;            // Desired width
+        const height = 90;           // Desired height
+
+        // Draw the image (SVG) onto the canvas
+        context.drawImage(image, 652, y, width, height);
+        context.drawImage(image, 680, 978, 60, 60);
+
+
+        
+    };
+
+    image.src = fullUrl;
+    image.crossOrigin = "anonymous"; // Set this if the image is from a different origin and requires CORS
 }
