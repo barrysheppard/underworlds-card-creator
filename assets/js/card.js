@@ -322,11 +322,12 @@ function readControls() {
 
 function drawCardFrame(fighterData){
     
+    getContext().drawImage(document.getElementById('runemark-bg'), 0, 0, canvas.width, canvas.height);
+
     if(!document.getElementById("removeBorder").checked){
         getContext().drawImage(document.getElementById('border'), 0, 0, getCanvas().width, getCanvas().height);
     }
 
-    
     // draw weapon 1
     if(fighterData.wp1special == "Brutal"){
         getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-brutal'), -20, 0, getCanvas().width, getCanvas().height);
@@ -336,6 +337,8 @@ function drawCardFrame(fighterData){
         getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-ensnare'), -20, 0, getCanvas().width, getCanvas().height);
     } if(fighterData.wp1special == "Grapple"){
         getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-grapple'), -20, 0, getCanvas().width, getCanvas().height);
+    } if(fighterData.wp1special == "Grevious"){
+        getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-grevious'), -20, 0, getCanvas().width, getCanvas().height);
     } if(fighterData.wp1special == "Stagger"){
         getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-stagger'), -20, 0, getCanvas().width, getCanvas().height);
     }
@@ -350,6 +353,8 @@ function drawCardFrame(fighterData){
         getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-2-ensnare'), -20, 0, getCanvas().width, getCanvas().height);
     } if(fighterData.wp1special2 == "Grapple"){
         getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-2-grapple'), -20, 0, getCanvas().width, getCanvas().height);
+    } if(fighterData.wp1special2 == "Grevious"){
+        getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-2-grevious'), -20, 0, getCanvas().width, getCanvas().height);
     } if(fighterData.wp1special2 == "Stagger"){
         getContext().drawImage(document.getElementById('underworlds-weapon-1-runemark-2-stagger'), -20, 0, getCanvas().width, getCanvas().height);
     }
@@ -377,6 +382,8 @@ function drawCardFrame(fighterData){
             getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-ensnare'), -20, 0, getCanvas().width, getCanvas().height);
         } if(fighterData.wp2special == "Grapple"){
             getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-grapple'), -20, 0, getCanvas().width, getCanvas().height);
+        } if(fighterData.wp2special == "Grevious"){
+            getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-grevious'), -20, 0, getCanvas().width, getCanvas().height);
         } if(fighterData.wp2special == "Stagger"){
             getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-stagger'), -20, 0, getCanvas().width, getCanvas().height);
         }
@@ -391,6 +398,8 @@ function drawCardFrame(fighterData){
             getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-2-ensnare'), -20, 0, getCanvas().width, getCanvas().height);
         } if(fighterData.wp2special2 == "Grapple"){
             getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-2-grapple'), -20, 0, getCanvas().width, getCanvas().height);
+        } if(fighterData.wp2special2 == "Grevious"){
+            getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-2-grevious'), -20, 0, getCanvas().width, getCanvas().height);
         } if(fighterData.wp2special2 == "Stagger"){
             getContext().drawImage(document.getElementById('underworlds-weapon-2-runemark-2-stagger'), -20, 0, getCanvas().width, getCanvas().height);
         }
@@ -505,7 +514,7 @@ const render = function (fighterData) {
             const height = image.height * scale;
             context.drawImage(image, position.x, position.y, width, height);
             drawCardFrame(fighterData);
-            context.drawImage(document.getElementById('runemark-bg'), 0, 0, canvas.width, canvas.height);
+            
             // Check if #runemarkImageUrl is populated before calling drawRunemarkImage
             const runemarkImageUrl = document.getElementById('runemarkImageUrl').value;
             if (runemarkImageUrl) {
@@ -607,8 +616,7 @@ function defaultFighterData() {
     var fighterData = new Object;
     fighterData.name = "BloodBowl_Card";
     fighterData.cardName = "Card Name";
-    fighterData.teamName = "";
-    fighterData.cardText = "Body Text";
+    fighterData.teamdName = "";
     fighterData.imageUrl = null;
     fighterData.imageProperties = getDefaultModelImageProperties();
     
@@ -840,7 +848,7 @@ async function onSaveClicked() {
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(exportObj);
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "bloodbowl_card_" + data.cardName.replace(/ /g, "_") + ".json");
+    downloadAnchorNode.setAttribute("download", "underworld_card_" + data.cardName.replace(/ /g, "_") + ".json");
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
@@ -850,7 +858,7 @@ function saveCardAsImage() {
     var element = document.createElement('a');
     data = readControls();
     element.setAttribute('href', document.getElementById('canvas').toDataURL('image/png'));
-    element.setAttribute('download', "bloodbowl_card_" + data.cardName + ".png");
+    element.setAttribute('download', "underworld_card_" + data.cardName + ".png");
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();

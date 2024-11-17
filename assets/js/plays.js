@@ -80,7 +80,7 @@ drawplayName = function (value) {
     getContext().textBaseline = "middle";
 
     // Scale font size based on text width
-    var fontSize = 50; // Initial font size
+    var fontSize = 46; // Initial font size
     getContext().font = fontSize + 'px brothers-regular';
 
     // Measure text width
@@ -155,9 +155,6 @@ function setName(name) {
 }
 
 
-function setModelImage(image) {
-    $("#missionImageUrl")[0].value = image;
-}
 
 function getModelImage() {
     var imageSelect = $("#imageSelect")[0];
@@ -168,21 +165,6 @@ function getModelImage() {
     return null;
 }
 
-function getModelImageProperties() {
-    return {
-        offsetX: $("#imageOffsetX")[0].valueAsNumber,
-        offsetY: $("#imageOffsetY")[0].valueAsNumber,
-        scalePercent: $("#imageScalePercent")[0].valueAsNumber
-    };
-}
-
-function setModelImageProperties(modelImageProperties) {
-    $("#imageOffsetX")[0].value = modelImageProperties.offsetX;
-    $("#imageOffsetY")[0].value = modelImageProperties.offsetY;
-    $("#imageScalePercent")[0].value = modelImageProperties.scalePercent;
-}
-
-
 function getFighterImageUrl() {
     var imageSelect = $("#missionImageUrl")[0].value;
     // if (imageSelect.files.length > 0) {
@@ -191,26 +173,15 @@ function getFighterImageUrl() {
     return imageSelect;
 }
 
-function getDefaultModelImageProperties() {
-    return {
-        offsetX: 0,
-        offsetY: 0,
-        scalePercent: 100
-    };
-}
-
-
 
 function readControls() {
     var data = new Object;
     data.name = getName();
     data.imageUrl = getFighterImageUrl();
-    data.imageProperties = getModelImageProperties();
-    data.customBackgroundUrl = getCustomBackgroundUrl();
-    data.customBackgroundProperties = getCustomBackgroundProperties();
     data.playName = document.getElementById("playName").value;
     data.bgselected = document.getElementById('background-list').value;
     data.removeBorder = document.getElementById("removeBorder").checked;
+    data.cardText = document.getElementById("cardText").value;
     
     return data;
 }
@@ -218,71 +189,19 @@ function readControls() {
 
 const render = function(missionData) {
     
-    if (missionData.customBackgroundUrl) {
-      renderCustomBackground(missionData);
-    } else {
-      renderDefaultBackground(missionData);
+    //drawFrame();
+    drawOverlayTexts(missionData);
+    // Check if #runemarkImageUrl is populated before calling drawRunemarkImage
+    const runemarkImageUrl = document.getElementById('runemarkImageUrl').value;
+    if (runemarkImageUrl) {
+        drawRunemarkImage(); // Draw the SVG from #RunemarkImageUrl
     }
+    drawBorder();
 
-
+    drawCardText(missionData.cardText)
   
 }
   
-const renderCustomBackground = function(missionData) {
-    const backgroundImage = new Image();
-    backgroundImage.onload = function() {
-        const position = scalePixelPosition({
-            x: missionData.customBackgroundProperties.offsetX,
-            y: missionData.customBackgroundProperties.offsetY
-        });
-        const scale = missionData.customBackgroundProperties.scalePercent;
-        const width = backgroundImage.width * scale / 100;
-        const height = backgroundImage.height * scale / 100;
-        getContext().drawImage(backgroundImage, position.x, position.y, width, height);
-        renderFighterImage(missionData);
-        //drawDeployment();
-
-    };
-    backgroundImage.src = missionData.customBackgroundUrl;
-};
-  
-const renderDefaultBackground = function(missionData) {
-    console.log("test");
-    //getContext().drawImage(getBackgroundImage(), 0, 0, getCanvas().width, getCanvas().height);
-    drawBorder();
-    renderFighterImage(missionData);
-    
-    
-};
-  
-
-const renderFighterImage = function(missionData) {
-    if (missionData.imageUrl) {
-        const image = new Image();
-        image.onload = function() {
-            const position = scalePixelPosition({
-                x: 372 +  missionData.imageProperties.offsetX,
-                y: 295 + missionData.imageProperties.offsetY
-            });
-            const scale = missionData.imageProperties.scalePercent / 100.0;
-            const width = image.width * scale;
-            const height = image.height * scale;
-            getContext().drawImage(image, position.x, position.y, width, height);
-            drawOverlayTexts(missionData);
-            drawBorder();
-            //drawDeployment();
-
-        };
-        image.src = missionData.imageUrl;
-    } else {
-        // Drawn if no image, or when file is loaded but no image included
-        if(true){
-            //drawFrame();
-            drawOverlayTexts(missionData);
-        }
-        drawBorder();
-    }
-};
 
 
 
@@ -314,20 +233,14 @@ async function writeControls(data) {
         data.base64CustomBackground = null;
     }
 
-    setModelImage(data.imageUrl);
-    setModelImageProperties(data.imageProperties);
-    setCustomBackground(data.customBackgroundUrl);
-    setCustomBackgroundProperties(data.customBackgroundProperties);
+
     $("#playName")[0].value = data.playName;
 
     // check and uncheck if needed
 
     document.getElementById('background-list').value = data.bgselected;
-
-    
-
     document.getElementById("removeBorder").checked = data.removeBorder;    
-    document.getElementById("textValue").value = data.textValue;
+    document.getElementById("cardText").value = data.cardText;
     
     // render the updated info
     render(data);
@@ -337,18 +250,14 @@ function defaultmissionData() {
     var data = new Object;
     data.name = "Bloodbowl_Play_Card";
     data.imageUrl = null;
-    data.imageProperties = getDefaultModelImageProperties();
     data.base64Image = null;
     data.customBackgroundUrl = null;
-    data.customBackgroundProperties = getDefaultModelImageProperties();
     data.base64CustomBackground = null;
-    data.playName = "The Chevron Defence";
-    data.teamName = "General";
+    data.playName = "Warband Name";
     data.bgselected = "bg1";
+    data.cardText = "This is some text"
 
     data.removeBorder = false;
-    data.colorPicker = "#FFFFFF";
-    data.colorPickerText = "#000000"
 
     return data;
 }
@@ -538,9 +447,9 @@ async function onSaveClicked() {
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(exportObj);
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
-    file_name = "Bloodbowl_Play_";
+    file_name = "Underworlds_Warband_";
 
-    file_name =  file_name + data.teamName.replace(/ /g, "_") + "_" + data.playName.replace(/ /g, "_") + ".json";
+    file_name =  file_name + data.playName.replace(/ /g, "_") + ".json";
     downloadAnchorNode.setAttribute("download", file_name);
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
@@ -552,8 +461,8 @@ function saveCardAsImage() {
     var element = document.createElement('a');
     element.setAttribute('href', document.getElementById('canvas').toDataURL('image/png'));
     
-    file_name = "Bloodbowl_Play_";
-    file_name = file_name + data.teamName.replace(/ /g, "_") + "_" + data.playName.replace(/ /g, "_") + ".png";
+    file_name = "Underworlds_Warband_";
+    file_name = file_name + data.playName.replace(/ /g, "_") + ".png";
 
     element.setAttribute("download", file_name);
     element.style.display = 'none';
@@ -595,9 +504,6 @@ async function fileChange(file) {
 
     var saveJson = function (json) {
         json.customBackgroundUrl =  null;
-        if (typeof json.customBackgroundProperties === "undefined") {
-            json.customBackgroundProperties = getDefaultModelImageProperties();
-        }
 
         // Check with old jsons where bgselected didn't exist
         let bgSelectedValue;
@@ -626,44 +532,6 @@ async function fileChange(file) {
 
 }
 
-function getCustomBackgroundProperties() {
-    return {
-        offsetX: $("#customBackgroundOffsetX")[0].valueAsNumber,
-        offsetY: $("#customBackgroundOffsetY")[0].valueAsNumber,
-        scalePercent: $("#customBackgroundScalePercent")[0].valueAsNumber,
-    };
-}
-
-function setCustomBackgroundProperties(customBackgroundProperties) {
-    $("#customBackgroundOffsetX")[0].value = customBackgroundProperties.offsetX || 0;
-    $("#customBackgroundOffsetY")[0].value = customBackgroundProperties.offsetY || 0;
-    $("#customBackgroundScalePercent")[0].value = customBackgroundProperties.scalePercent || 100;
-}
-
-function getCustomBackground() {
-    var imageSelect = $("#customBackgroundSelect")[0];
-    if (imageSelect.files.length > 0) {
-        return URL.createObjectURL(imageSelect.files[0]);
-    }
-    return null;
-}
-
-function setCustomBackground(image) {
-    $("#customBackgroundUrl")[0].value = image;
-}
-
-onCustomBackgroundUpload = function () {
-    image = getCustomBackground();
-    setCustomBackground(image);
-    var missionData = readControls();
-    render(missionData);
-    saveLatestmissionData();
-}
-
-function getCustomBackgroundUrl() {
-    var imageSelect = $("#customBackgroundUrl")[0].value;
-    return imageSelect;
-}
 
 function drawOverlayTexts(missionData) {
     const {
@@ -672,6 +540,7 @@ function drawOverlayTexts(missionData) {
     // These are the texts to overlay
     drawMap();
     drawplayName(playName);
+
     drawBorder();
   
   }
@@ -814,6 +683,7 @@ function populateImageSelectDropdown() {
                 const option = document.createElement("option");
                 option.value = imageFile.path; // Set the option's value to the image file path
                 option.text = imageFile.path.replace('assets/img/logos/', ''); // Display the image file name in the dropdown
+                option.text = option.text.replace('.svg', ''); // Display the image file name in the dropdown
                 imageSelect.appendChild(option); // Add the option to the select element
             });
         })
@@ -821,3 +691,122 @@ function populateImageSelectDropdown() {
             console.error("Error fetching image files from GitHub: ", error);
         });
 }
+
+function setModelImageProperties(modelImageProperties) {
+    $("#imageOffsetX")[0].value = modelImageProperties.offsetX;
+    $("#imageOffsetY")[0].value = modelImageProperties.offsetY;
+    $("#imageScalePercent")[0].value = modelImageProperties.scalePercent;
+}
+
+onWeaponRunemarkFileSelect = function (input, weaponName) {
+    var grid = $(input.parentNode).find("#weaponRunemarkSelect")[0];
+
+    for (i = 0; i < input.files.length; i++) {
+        addToImageRadioSelector(URL.createObjectURL(input.files[i]), grid, weaponName, "white");
+    }
+}
+
+
+function onRunemarkSelectChange() {
+    // Get the selected value from the dropdown
+    const selectedImage = document.getElementById("imageSelectList").value;
+
+    // Update the hidden input field with the selected image URL
+    const runemarkImageUrlInput = document.getElementById("runemarkImageUrl");
+    runemarkImageUrlInput.value = selectedImage; // Set the value to the selected image URL
+
+    // Optionally, log to check if the correct value is set
+    console.log("Selected Image URL:", selectedImage);
+    
+    // redraw
+    var missionData = readControls();
+    render(missionData);
+}
+
+
+function drawRunemarkImage() {
+    const runemarkImageElement = document.getElementById('runemarkImageUrl');
+    
+    // Ensure the element exists before trying to access its value
+    if (!runemarkImageElement) {
+        console.error("Element #runemarkImageUrl not found");
+        return;  // Exit early if the element doesn't exist
+    }
+
+    const runemarkImageUrl = runemarkImageElement.value;
+
+    // If the value is empty, we can exit the function early
+    if (!runemarkImageUrl) {
+        console.log("No runemark image URL provided.");
+        return;
+    }
+
+    // Proceed with loading the runemark image as before
+    const fullUrl = window.location.origin + '/' + runemarkImageUrl;
+
+    const image = new Image();
+    image.onload = function() {
+        const context = getContext();
+        
+        const x = 984;   // Example centering, adjust as needed
+        const y = 78;  // Example centering, adjust as needed
+        const width = 60;            // Desired width
+        const height = 60;           // Desired height
+
+        // Draw the image (SVG) onto the canvas
+        context.drawImage(image, x, y, width, height);
+        
+    };
+
+    image.src = fullUrl;
+    image.crossOrigin = "anonymous"; // Set this if the image is from a different origin and requires CORS
+}
+
+
+
+drawCardText = function (value) {
+
+    getContext().font = '24px frutiger-light';
+    getContext().fillStyle = 'black';
+    getContext().textAlign = "left";
+    getContext().textBaseline = "middle";
+
+    lineHeight = 26;
+    fitWidth = 550;
+
+    // This one works, commented out for testing
+    //    printAtWordWrap(getContext(), value, getCanvas().width / 2, 280, lineHeight, fitWidth);
+
+    // Trying to get a bold and italic check going
+    text_array = (splitWordWrap(getContext(), value, fitWidth));
+
+    printWithMarkup(getContext(), text_array, 360, 180, lineHeight);
+
+
+
+}
+
+
+
+function printWithMarkup(context, text_array, x, y, lineHeight) {
+
+    // table code style --> font style
+
+    // Text comes in as an array
+    // need to split it into lines
+    for (line in text_array) {
+        if (text_array[line].startsWith("**")) {
+            printText = text_array[line].replace("**", '');
+            context.font = 'bold 38px frutiger-light';
+            context.fillStyle = '#5B150F';
+            context.fillText(printText, x, y + (line * lineHeight));
+            context.font = '36px frutiger-light';
+            context.fillStyle = 'black';
+        } else {
+            context.fillText(text_array[line], x, y + (line * lineHeight));
+        }
+
+
+    }
+}
+

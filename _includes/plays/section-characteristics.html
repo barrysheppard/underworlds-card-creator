@@ -11,10 +11,23 @@
     <div class="collapse" id="missionsCollapseFive">
         <div class="card-body">
             <div class="form-group">
-                <label for="playName">Play Name</label>
+                <label for="playName">Warband Name</label>
                 <input class="form-control" type="text" id="playName" name="playName" value=" "
                     oninput="onAnyChange()">
             </div>
+
+
+            <div class="form-group">
+                <label for="imageSelectList">Warband Runemark</label>
+                <select class="form-control" id="imageSelectList" onchange="onRunemarkSelectChange()">
+                    <option value="">Select an image</option>
+                    <!-- Options for images in the folder will be dynamically populated here -->
+                </select>
+            </div>
+            
+            <input type="hidden" id="runemarkImageUrl" name="runemarkImageUrl" value="">
+
+
 
         </div>
     </div>
