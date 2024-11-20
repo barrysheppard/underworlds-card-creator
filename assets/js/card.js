@@ -999,7 +999,8 @@ function drawRunemarkImage() {
     }
 
     // Proceed with loading the runemark image as before
-    const fullUrl = window.location.origin + '/' + runemarkImageUrl;
+    //const fullUrl = window.location.origin + '/' + runemarkImageUrl;
+    const fullUrl = 'https://barrysheppard.github.io/underworlds-card-creator/' + runemarkImageUrl;
 
     const image = new Image();
     image.onload = function() {
