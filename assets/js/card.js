@@ -616,7 +616,7 @@ function defaultFighterData() {
     var fighterData = new Object;
     fighterData.name = "BloodBowl_Card";
     fighterData.cardName = "Card Name";
-    fighterData.teamdName = "";
+    fighterData.teamName = "";
     fighterData.imageUrl = null;
     fighterData.imageProperties = getDefaultModelImageProperties();
     

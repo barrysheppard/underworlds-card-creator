@@ -182,15 +182,17 @@ function readControls() {
     data.bgselected = document.getElementById('background-list').value;
     data.removeBorder = document.getElementById("removeBorder").checked;
     data.cardText = document.getElementById("cardText").value;
+    data.cardFontSize = document.getElementById("cardFontSize").value;    
+    data.inspireText = document.getElementById("inspireText").value;
     
     return data;
 }
 
 
-const render = function(missionData) {
+const render = function(data) {
     
     //drawFrame();
-    drawOverlayTexts(missionData);
+    drawOverlayTexts(data);
     // Check if #runemarkImageUrl is populated before calling drawRunemarkImage
     const runemarkImageUrl = document.getElementById('runemarkImageUrl').value;
     if (runemarkImageUrl) {
@@ -198,7 +200,8 @@ const render = function(missionData) {
     }
     drawBorder();
 
-    drawCardText(missionData.cardText)
+    drawCardText(data.cardText, x=360, y=180, fitWidth=550, fontSize=data.cardFontSize)
+    drawCardText(data.inspireText, 96, 180, 200)
   
 }
   
@@ -239,8 +242,10 @@ async function writeControls(data) {
     // check and uncheck if needed
 
     document.getElementById('background-list').value = data.bgselected;
-    document.getElementById("removeBorder").checked = data.removeBorder;    
+    document.getElementById("removeBorder").checked = data.removeBorder;
     document.getElementById("cardText").value = data.cardText;
+    document.getElementById("cardFontSize").value = data.cardFontSize;
+    document.getElementById("inspireText").value = data.inspireText;
     
     // render the updated info
     render(data);
@@ -256,6 +261,8 @@ function defaultmissionData() {
     data.playName = "Warband Name";
     data.bgselected = "bg1";
     data.cardText = "This is some text"
+    data.cardFontSize = 46
+    data.inspireText = "This is some text"
 
     data.removeBorder = false;
 
@@ -764,25 +771,20 @@ function drawRunemarkImage() {
 
 
 
-drawCardText = function (value) {
+drawCardText = function (value, x=360, y=180, fitWidth=550, fontSize = 32) {
 
-    getContext().font = '24px frutiger-light';
+    getContext().font = fontSize+'px frutiger-light';
     getContext().fillStyle = 'black';
     getContext().textAlign = "left";
-    getContext().textBaseline = "middle";
-
-    lineHeight = 26;
-    fitWidth = 550;
+    getContext().textBaseline = "top";
+    lineHeight = fontSize;
 
     // This one works, commented out for testing
     //    printAtWordWrap(getContext(), value, getCanvas().width / 2, 280, lineHeight, fitWidth);
 
     // Trying to get a bold and italic check going
     text_array = (splitWordWrap(getContext(), value, fitWidth));
-
-    printWithMarkup(getContext(), text_array, 360, 180, lineHeight);
-
-
+    printWithMarkup(getContext(), text_array, x, y, lineHeight);
 
 }
 

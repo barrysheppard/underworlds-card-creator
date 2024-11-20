@@ -12,14 +12,19 @@
     <div class="collapse" id="missionsCollapseSix">
         <div class="card-body">
             <div class="form-group">
-                <label for="cardText">Text</label>
+                <label for="cardText">Main Text</label>
                 <textarea class="form-control" id="cardText" name="cardText" rows="4"
                     oninput="onAnyChange()"></textarea>
             </div>
             <div class="form-group">
-                <label for="fontSize">Font Size</label>
-                <input type="number" class="form-control" id="fontSize" name="fontSize" min="1" step="1"  value="42"
+                <label for="cardFontSize">Main Text Font Size</label>
+                <input type="number" class="form-control" id="cardFontSize" name="cardFontSize" min="1" step="1"  value="42"
                     oninput="onAnyChange()" />
+            </div>
+            <div class="form-group">
+                <label for="inspireText">Inspire Text</label>
+                <textarea class="form-control" id="inspireText" name="inspireText" rows="4"
+                    oninput="onAnyChange()"></textarea>
             </div>
         </div>
     </div>
