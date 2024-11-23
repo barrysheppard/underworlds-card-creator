@@ -294,6 +294,7 @@ function readControls() {
     data.pa = document.getElementById("pa").value;
     data.defense = document.getElementById("defense").value;
     data.runemarkImageUrl = document.getElementById("runemarkImageUrl").value;
+    data.iconColorPicker = document.getElementById("iconColorPicker").value;
     
     data.playerType = document.getElementById("playerType").value;
 
@@ -322,6 +323,14 @@ function readControls() {
 
 function drawCardFrame(fighterData){
     
+    if (fighterData.playerType == "inspired") {
+        getContext().drawImage(document.getElementById('frame_inspired'), 0, 0, canvas.width, canvas.height);
+    } else {
+        getContext().drawImage(document.getElementById('frame_normal'), 0, 0, canvas.width, canvas.height);
+    }
+
+
+
     getContext().drawImage(document.getElementById('runemark-bg'), 0, 0, canvas.width, canvas.height);
 
     if(!document.getElementById("removeBorder").checked){
@@ -483,6 +492,8 @@ function drawCardFrame(fighterData){
         runemark_Y += 100;  // Check if this move is too much
     }
     
+    drawCircle(697, 232, 38, fighterData.iconColorPicker);
+    drawCircle(706, 1005, 26, fighterData.iconColorPicker);
 
 }
 
@@ -493,13 +504,9 @@ const render = function (fighterData) {
     const context = getContext();
     const canvas = getCanvas();
 
-    // Draw background and frame
-    //context.drawImage(document.getElementById('bg1'), 0, 0, canvas.width, canvas.height);
-    if (fighterData.playerType == "inspired") {
-        context.drawImage(document.getElementById('inspired'), 0, 0, canvas.width, canvas.height);
-    } else {
-        context.drawImage(document.getElementById('normal'), 0, 0, canvas.width, canvas.height);
-    }
+    // Draw background 
+    context.drawImage(document.getElementById('bg1'), 0, 0, canvas.width, canvas.height);
+    
 
     // Draw fighter image if available
     if (fighterData.imageUrl) {
@@ -588,7 +595,8 @@ async function writeControls(fighterData) {
     $("#pa")[0].value = fighterData.pa;
     $("#defense").val(fighterData.defense);
     $("#runemarkImageUrl").val(fighterData.runemarkImageUrl);
-
+    $("#iconColorPicker").val(fighterData.iconColorPicker);
+    
     $("#wp1rng")[0].value = fighterData.wp1rng;
     $("#wp1dice")[0].value = fighterData.wp1dice;
     $("#wp1dmg")[0].value = fighterData.wp1dmg;
@@ -626,6 +634,8 @@ function defaultFighterData() {
     fighterData.pa = 3;
     fighterData.defense = "Dodge";
     fighterData.runemarkImageUrl = ""
+    fighterData.iconColorPicker = "#000000"
+    
     fighterData.wp1dice = 0;
     fighterData.wp1dmg = 0;
     fighterData.wp1rng = 0;
@@ -1012,8 +1022,8 @@ function drawRunemarkImage() {
         const height = 90;           // Desired height
 
         // Draw the image (SVG) onto the canvas
-        context.drawImage(image, 652, y, width, height);
-        context.drawImage(image, 680, 978, 60, 60);
+        context.drawImage(image, 653, 187, width, height);
+        context.drawImage(image, 677, 975, 60, 60);
 
 
         
@@ -1021,4 +1031,26 @@ function drawRunemarkImage() {
 
     image.src = fullUrl;
     image.crossOrigin = "anonymous"; // Set this if the image is from a different origin and requires CORS
+}
+
+function drawCircle(x, y, radius, color) {
+    // Get the canvas element and its context
+    let context = getContext();
+
+    // Begin a new path
+    context.beginPath();
+    
+    // Draw a circle
+    context.arc(x, y, radius, 0, Math.PI * 2);
+
+    // Set the fill color
+    context.fillStyle = color;
+
+    // Fill the circle with the specified color
+    context.fill();
+
+    // Optional: Add a border to the circle
+    context.strokeStyle = 'black'; // Set border color
+    context.lineWidth = 2;         // Set border width
+    context.stroke();              // Draw border
 }

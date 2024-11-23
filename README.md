@@ -1,2 +1,2 @@
-# bloodbowl-card-creator
-Making custom cards for bloodbowl players
+# underworlds-card-creator
+Making custom cards for underworlds players
